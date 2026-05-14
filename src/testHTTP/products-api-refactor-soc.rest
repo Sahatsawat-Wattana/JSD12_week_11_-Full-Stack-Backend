@@ -1,0 +1,22 @@
+GET http://localhost:3002/api/users
+
+### Create new product
+POST http://localhost:3002/api/products
+Content-Type: application/json
+
+{
+    "name" : "David Copperfield",
+    "price" : "39.99"
+}
+
+### Update new product
+PUT http://localhost:3002/api/users/1
+Content-Type: application/json
+
+{
+    "name" : "Frankensteins",
+    "price" : "20"
+}
+
+### Delete product
+DELETE http://localhost:3002/api/products/2
