@@ -6,5 +6,5 @@ import { router as noteRoutes } from "./notes.routes.js";
 export const router = Router();
 
 router.use("/users", usersRoutes);
-router.use("products", productRoutes);
+router.use("/products", productRoutes);
 router.use("/notes", noteRoutes);

@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   const product = products.find((p) => p.id === req.params.id);
   if (!product) {
-    res.status(404).json({ error: "User not found!" });
+    res.status(404).json({ error: "Product not found!" });
   }
   const { name, price } = req.body || {};
   if (!name || !price) {
@@ -37,8 +37,8 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const product = products.find((p) => p.id === req.params.id);
   if (!product) {
-    res.status(404).json({ error: "User not found!" });
+    res.status(404).json({ error: "Product not found!" });
   }
-  product.splice(Number(product.id) - 1, 1);
+  products.splice(Number(product.id) - 1, 1);
   res.status(200).json({ message: "Delete completed" });
 });

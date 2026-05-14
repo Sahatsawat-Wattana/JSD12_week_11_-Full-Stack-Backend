@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from "cors";
-import { users } from './fakeData/fakeUsers.js';
 import {router as apiRoutes} from "./routes/v1/index.js"
 
 const app = express();

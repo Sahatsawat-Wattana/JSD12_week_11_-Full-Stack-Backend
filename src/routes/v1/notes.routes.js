@@ -8,14 +8,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { note } = req.body || {};
-  if (!note) {
-    return res.status(400).json({ error: "name and price are required" });
+  const { passage } = req.body || {};
+  if (!passage) {
+    return res.status(400).json({ error: "note are required" });
   }
   const nextId = String(
-    notes.reduce((max, n) => Math.max(max, Number(n.id)), 0 || 0) + 1,
+    notes.reduce((max, p) => Math.max(max, Number(p.id)), 0 || 0) + 1,
   );
-  const newNotes = { id: nextId, note };
+  const newNotes = { id: nextId, passage };
   notes.push(newNotes);
   return res.status(201).json(newNotes);
 });
@@ -23,20 +23,20 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   const note = notes.find((n) => n.id === req.params.id);
   if (!note) {
-    res.status(404).json({ error: "User not found!" });
+    res.status(404).json({ error: "note not found!" });
   }
-  const { note } = req.body || {};
-  if (!note) {
-    return res.status(400).json({ error: "name and price are required" });
+  const { passage } = req.body || {};
+  if (!passage) {
+    return res.status(400).json({ error: "passage is required" });
   }
-  notes.note = note
+  note.passage = passage;
   res.status(200).json(note);
 });
 
 router.delete("/:id", (req, res) => {
   const note = notes.find((n) => n.id === req.params.id);
   if (!note) {
-    res.status(404).json({ error: "User not found!" });
+    res.status(404).json({ error: "note not found!" });
   }
   notes.splice(Number(note.id) - 1, 1);
   res.status(200).json({ message: "Delete completed" });
