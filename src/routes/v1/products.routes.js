@@ -7,6 +7,14 @@ router.get("/", (req, res) => {
   res.json(products);
 });
 
+router.get("/:id",(req,res) => {
+  const product = products.find((p) => p.id === req.params.id);
+  if (!product) {
+    res.status(404).json({ error: "Product not found!" });
+  }
+  res.json(product)
+})
+
 router.post("/", (req, res) => {
   const { name, price } = req.body || {};
   if (!name || !price) {

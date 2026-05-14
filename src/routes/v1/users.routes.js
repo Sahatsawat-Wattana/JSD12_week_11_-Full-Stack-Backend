@@ -7,6 +7,14 @@ router.get("/", (req, res) => {
   res.json(users);
 });
 
+router.get("/:id", (req,res) => {
+  const user = users.find((u) => u.id === req.params.id);
+  if (!user) {
+    res.status(404).json({ error: "User not found!" });
+  }
+  res.json(user);
+})
+
 router.post("/", (req, res) => {
   const { username, email } = req.body || {};
   if (!username || !email) {

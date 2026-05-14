@@ -1,5 +1,9 @@
 GET http://localhost:3002/api/users
 
+
+### Get one user
+GET http://localhost:3002/api/users/2
+
 ### Create new user
 POST http://localhost:3002/api/users
 Content-Type: application/json

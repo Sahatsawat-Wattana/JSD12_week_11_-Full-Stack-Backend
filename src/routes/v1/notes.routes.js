@@ -7,6 +7,15 @@ router.get("/", (req, res) => {
   res.json(notes);
 });
 
+router.get("/:id", (req,res) => {
+  const note = notes.find((n) => n.id === req.params.id);
+  if (!note) {
+    res.status(404).json({ error: "note not found!" });
+  }
+  res.json(note)
+})
+
+
 router.post("/", (req, res) => {
   const { passage } = req.body || {};
   if (!passage) {
