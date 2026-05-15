@@ -1,15 +1,15 @@
-import express from 'express';
+import express from "express";
 import cors from "cors";
-import {router as apiRoutes} from "./routes/v1/index.js"
+import { router as apiRoutes } from "./routes/index.js";
+import { connectDB } from "./config/mongodb.js";
 
 const app = express();
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
-
-app.get('/',(req,res) => {
-    res.send(`<!doctype html>
+app.get("/", (req, res) => {
+  res.send(`<!doctype html>
   <html lang="en">
     <head>
       <meta charset="utf-8" />
@@ -39,13 +39,13 @@ app.get('/',(req,res) => {
       </main>
     </body>
   </html>`);
-})
+});
 
-app.use('/api',apiRoutes)
-
+app.use("/api", apiRoutes);
 
 const PORT = 3002;
+await connectDB();
 
-app.listen(PORT,() => {
-    console.log(`Server Running on Port ${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log(`Server Running on Port ${PORT}`);
+});
