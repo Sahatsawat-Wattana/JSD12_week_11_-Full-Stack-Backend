@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { User } from "../../modules/Users/user.model.js";
+import { supabase } from "../../config/supabase.js";
 
 export const router = Router();
 
@@ -15,6 +16,20 @@ router.get("/", async (req, res) => {
     res.status(200).json({ success: true, data: users });
   } catch (err) {
     res.status(400).json({ success: false, error: err });
+  }
+});
+
+const PG_SELECT = "id, username, email, role, created_at, updated_at";
+
+router.get("/pg", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("users").select(PG_SELECT);
+
+    if (error) throw error;
+
+    return res.status(200).json({ success: true, data });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
   }
 });
 
@@ -67,4 +82,28 @@ router.delete("/:id", async (req, res) => {
   }
   users.splice(Number(user.id) - 1, 1);
   res.status(200).json({ message: "Delete completed" });
+});
+
+router.post("/pg", async (req, res) => {
+  const { username, email, password, role } = req.body || {};
+  if (!username || !email || !password) {
+    const err = new Error("username, email, and password are required");
+    err.name = "ValidationError";
+    err.status = 400;
+    return res.status(400).json({ success: false, error: err });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .insert({ username, email, password, role: role || "user" })
+      .select(PG_SELECT)
+      .single();
+
+    if (error) throw error;
+
+    return res.status(201).json({ success: true, data });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
+  }
 });

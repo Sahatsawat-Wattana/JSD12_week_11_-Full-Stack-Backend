@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { router as apiRoutes } from "./routes/index.js";
 import { connectDB } from "./config/mongodb.js";
+import { connectSupabase } from "./config/supabase.js";
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use("/api", apiRoutes);
 
 const PORT = 3002;
 await connectDB();
+await connectSupabase();
 
 app.listen(PORT, () => {
   console.log(`Server Running on Port ${PORT}`);
