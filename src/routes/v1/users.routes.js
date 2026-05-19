@@ -1,55 +1,21 @@
 import { Router } from "express";
 import { users } from "../../fakeData/fakeUsers.js";
+import {
+  createUserFakeData,
+  deleteUserFakeData,
+  getAllUsersFakedata,
+  getOneUserFakeData,
+  updateUserFakeData,
+} from "../../modules/Users/users.v1.controller.js";
 
 export const router = Router();
 
-router.get("/", (req, res) => {
-  res.json(users);
-});
+router.get("/", getAllUsersFakedata);
 
-router.get("/:id", (req,res) => {
-  const user = users.find((u) => u.id === req.params.id);
-  if (!user) {
-    res.status(404).json({ error: "User not found!" });
-  }
-  res.json(user);
-})
+router.get("/:id", getOneUserFakeData);
 
-router.post("/", (req, res) => {
-  const { username, email } = req.body || {};
-  if (!username || !email) {
-    return res.status(400).json({ error: "username and email are required" });
-  }
-  const nextId = String(
-    users.reduce((max, u) => Math.max(max, Number(u.id)), 0 || 0) + 1,
-  );
-  const newUser = { id: nextId, username, email };
-  users.push(newUser);
-  return res.status(201).json(newUser);
-});
+router.post("/", createUserFakeData);
 
-router.put("/:id", (req, res) => {
-  const user = users.find((u) => u.id === req.params.id);
-  if (!user) {
-    res.status(404).json({ error: "User not found!" });
-  }
-  const { username, email, password } = req.body || {};
-  if (!username || !email || !password) {
-    return res
-      .status(400)
-      .json({ error: "username, email and password are required" });
-  }
-  user.username = username;
-  user.email = email;
-  user.password = password;
-  res.status(200).json(user);
-});
+router.put("/:id", updateUserFakeData);
 
-router.delete("/:id", (req, res) => {
-  const user = users.find((u) => u.id === req.params.id);
-  if (!user) {
-    res.status(404).json({ error: "User not found!" });
-  }
-  users.splice(Number(user.id) - 1, 1);
-  res.status(200).json({ message: "Delete completed" });
-});
+router.delete("/:id", deleteUserFakeData);

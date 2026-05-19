@@ -44,6 +44,20 @@ app.get("/", (req, res) => {
 
 app.use("/api", apiRoutes);
 
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error!",
+    path: req.originalUrl,
+    method: req.method,
+    timestamp: new Date().toISOString(),
+    stack: err.stack,
+  });
+});
+
+
 const PORT = 3002;
 await connectDB();
 await connectSupabase();

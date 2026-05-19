@@ -20,14 +20,14 @@ Content-Type: application/json
     "password": "password123"
 }
 
-# ### Update a user (Supabase) — replace the UUID with a real id from POST response
-# PUT http://localhost:3002/api/v2/users/pg/5a036cd6-d37a-406a-96b9-faeaa77b0736
-# Content-Type: application/json
+### Update a user (Supabase) — replace the UUID with a real id from POST response
+PUT http://localhost:3002/api/v2/users/pg/7cacd654-e3ef-46b4-90d2-5266961e9538
+Content-Type: application/json
 
-# {
-#     "username": "Charlie Updated",
-#     "role": "user"
-# }
+{
+    "username": "Charlie Updated",
+    "role": "user"
+}
 
-# ### Delete a user (Supabase) — replace the UUID with a real id from POST response
-# DELETE http://localhost:3002/api/v2/users/pg/5a036cd6-d37a-406a-96b9-faeaa77b0736
+### Delete a user (Supabase) — replace the UUID with a real id from POST response
+DELETE http://localhost:3002/api/v2/users/pg/7cacd654-e3ef-46b4-90d2-5266961e9538

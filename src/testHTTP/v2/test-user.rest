@@ -2,7 +2,7 @@ GET http://localhost:3002/api/v2/users
 
 
 ### Get one user
-GET http://localhost:3002/api/v2/users/2
+GET http://localhost:3002/api/v2/users/6a06cbed6717f19cf03e0490
 
 ### Create new user
 POST http://localhost:3002/api/v2/users
@@ -15,14 +15,14 @@ Content-Type: application/json
 }
 
 ### Update new user
-PUT http://localhost:3002/api/v2/users/1
+PUT http://localhost:3002/api/v2/users/6a06cbed6717f19cf03e0490
 Content-Type: application/json
 
 {
     "username" : "Ton",
     "email" : "ton@example.com",
-    "password" : "pass123"
+    "password" : "pass1234"
 }
 
 ### Delete User
-DELETE http://localhost:3002/api/v2/users/2
+DELETE http://localhost:3002/api/v2/users/6a06cbed6717f19cf03e0490
