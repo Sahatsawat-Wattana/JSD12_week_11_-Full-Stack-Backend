@@ -1,6 +1,5 @@
 import { User } from "./user.model.js";
 import { supabase } from "../../config/supabase.js";
-import bcrypt from "bcrypt";
 
 const userResponse = (doc) => {
   const user = doc.toObject();
