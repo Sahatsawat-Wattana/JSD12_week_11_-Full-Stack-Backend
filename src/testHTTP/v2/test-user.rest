@@ -33,8 +33,8 @@ POST http://localhost:3002/api/v2/users/register
 Content-Type: application/json
 
 {
-    "username" : "Ellen",
-    "email" : "Ellen@example.com",
+    "username" : "Xiaozhan",
+    "email" : "Xiaozhan@example.com",
     "password" : "pass1234",
     "role" : "user"
 }
