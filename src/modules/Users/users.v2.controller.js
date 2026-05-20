@@ -1,5 +1,6 @@
 import { User } from "./user.model.js";
 import { supabase } from "../../config/supabase.js";
+import bcrypt from "bcrypt";
 
 const userResponse = (doc) => {
   const user = doc.toObject();
@@ -201,5 +202,41 @@ export const getOneUserSql = async (req, res, next) => {
     return res.status(200).json({ success: true, data: data[0] });
   } catch (error) {
     next(error);
+  }
+};
+
+export const register = async (req, res, next) => {
+  try {
+    const { username, email, password, role } = req.body;
+    const user = await User.create({ username, email, password, role });
+    return res.status(200).json({ success: true, message: "User created" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body || {};
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required" });
+    }
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
+    }
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
+    }
+    return res.status(200).json({ success: true, message: "Login completed" });
+  } catch (err) {
+    next(err);
   }
 };

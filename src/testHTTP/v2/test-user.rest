@@ -25,4 +25,28 @@ Content-Type: application/json
 }
 
 ### Delete User
-DELETE http://localhost:3002/api/v2/users/6a06cbed6717f19cf03e0490
+DELETE http://localhost:3002/api/v2/users/6a06cc5dd8acccda3cee649d
+
+
+### register new user
+POST http://localhost:3002/api/v2/users/register
+Content-Type: application/json
+
+{
+    "username" : "Marty",
+    "email" : "Marty@example.com",
+    "password" : "Tuata1234",
+    "role" : "user"
+}
+
+
+### login
+POST http://localhost:3002/api/v2/users/login
+Content-Type: application/json
+
+{
+    "username" : "Marty",
+    "email" : "Marty@example.com",
+    "password" : "Tuata1234",
+    "role" : "user"
+}

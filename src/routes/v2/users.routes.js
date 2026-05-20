@@ -9,6 +9,8 @@ import {
   getAllUsersSql,
   getOneUser,
   getOneUserSql,
+  login,
+  register,
   updateUser,
   UpdateUserSql,
 } from "../../modules/Users/users.v2.controller.js";
@@ -24,6 +26,10 @@ router.get("/pg/:id", getOneUserSql);
 router.get("/:id", getOneUser);
 
 router.post("/", createUser);
+
+router.post("/register",register);
+
+router.post("/login",login);
 
 router.put("/pg/:id", UpdateUserSql);
 
