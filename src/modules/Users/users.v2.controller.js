@@ -1,5 +1,6 @@
 import { User } from "./user.model.js";
 import { supabase } from "../../config/supabase.js";
+import jwt from "jsonwebtoken";
 
 const userResponse = (doc) => {
   const user = doc.toObject();
@@ -226,16 +227,82 @@ export const login = async (req, res, next) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid credentials" });
+        .json({ success: false, message: "User not found" });
     }
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid credentials" });
+        .json({ success: false, message: "Incorrect password" });
     }
-    return res.status(200).json({ success: true, message: "Login completed" });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    
+    const isProd = process.env.NODE_ENV === "production";
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      path: "/",
+      maxAge: 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     next(err);
+  }
+};
+
+export const checkUserSession = async (req, res, next) => {
+  try {
+    const userId = req.user.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = async (req, res, next) => {
+  try {
+    const isProd = process.env.NODE_ENV === "production";
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      path: "/",
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    next(error);
   }
 };

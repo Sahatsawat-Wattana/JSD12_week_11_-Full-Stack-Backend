@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { supabase } from "../../config/supabase.js";
 import {
+  checkUserSession,
   createUser,
   createUserSql,
   deleteUser,
@@ -10,10 +11,12 @@ import {
   getOneUser,
   getOneUserSql,
   login,
+  logout,
   register,
   updateUser,
   UpdateUserSql,
 } from "../../modules/Users/users.v2.controller.js";
+import { authUser } from "../../middleware/auth.js";
 
 export const router = Router();
 
@@ -23,6 +26,8 @@ router.get("/pg", getAllUsersSql);
 
 router.get("/pg/:id", getOneUserSql);
 
+router.get("/auth/me", authUser, checkUserSession);
+
 router.get("/:id", getOneUser);
 
 router.post("/", createUser);
@@ -30,6 +35,8 @@ router.post("/", createUser);
 router.post("/register",register);
 
 router.post("/login",login);
+
+router.post("/auth/logout",logout)
 
 router.put("/pg/:id", UpdateUserSql);
 
