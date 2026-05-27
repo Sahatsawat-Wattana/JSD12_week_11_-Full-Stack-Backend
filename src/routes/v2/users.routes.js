@@ -15,6 +15,7 @@ import {
   register,
   updateUser,
   UpdateUserSql,
+  askUsers
 } from "../../modules/Users/users.v2.controller.js";
 import { authUser } from "../../middleware/auth.js";
 
@@ -47,3 +48,5 @@ router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
 router.post("/pg", createUserSql);
+
+router.post("/ask", authUser, askUsers);

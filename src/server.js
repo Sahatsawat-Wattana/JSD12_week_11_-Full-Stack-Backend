@@ -4,10 +4,22 @@ import { router as apiRoutes } from "./routes/index.js";
 import { connectDB } from "./config/mongodb.js";
 import { connectSupabase } from "./config/supabase.js";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import { limiter } from "./middleware/rateLimiter.js";
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+  ], // frontend domain
+  credentials: true, // ✅ allow cookies to be sent
+};
+app.use(helmet())
+app.use(cors(corsOptions));
+app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -58,7 +70,6 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-
 
 const PORT = 3002;
 await connectDB();
